@@ -238,7 +238,7 @@ process.on('SIGINT', () => {
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Todo API server running on port ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log('CORS enabled for:', allowedOrigins);
+  console.log('CORS enabled for Claude.ai domains');
   console.log('Available endpoints:');
   console.log('  GET    /api/todos');
   console.log('  POST   /api/todos');
