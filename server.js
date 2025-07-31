@@ -7,27 +7,22 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Middleware
-const allowedOrigins = [
-  'http://localhost:3000',
-  'https://claude.ai',
-  'https://www.claude.ai',
-  process.env.FRONTEND_URL
-].filter(Boolean);
-
+// Updated CORS config for better Claude Artifacts support
 app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps, curl, etc.)
-    if (!origin) return callback(null, true);
-    
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      console.log('Blocked by CORS:', origin);
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true
+  origin: [
+    'http://localhost:3000',
+    'https://claude.ai',
+    'https://www.claude.ai', 
+    'https://claude.anthropic.com',
+    '*' // Temporary: allow all for testing
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+// Add preflight handling
+app.options('*', cors());
 app.use(express.json());
 
 // Database setup
